@@ -1,5 +1,5 @@
-**Ad Soyad:** [Mohamed Ali Mohamed]
-**Öğrenci No:** [22080410213]
+**Ad Soyad:** Mohamed Ali Mohamed
+**Öğrenci No:** 22080410213
 **Üniversite:** Bitlis Eren Üniversitesi
 **Bölüm:** Bilgisayar Mühendisliği
 
@@ -42,20 +42,6 @@ Luhn algoritmasını geçen ve `mock_data` içerisinde tanımlı olan TC Kimlik 
 
 ---
 
-## 📱 Ekran Görüntüleri
-
-*(Not: Emülatörden aldığın ekran görüntülerini projenin içindeki `assets/screenshots/` klasörüne eklemeyi unutma)*
-
-| Adım 1: Kişisel Bilgiler | Adım 2: Sigorta & Sağlık | Adım 3: Bölüm & Doktor |
-| :---: | :---: | :---: |
-| ![Step 1](assets/screenshots/step1.png) | ![Step 2](assets/screenshots/step2.png) | ![Step 3](assets/screenshots/step3.png) |
-
-| Adım 4: Tarih & Saat | Adım 5: Ek Hizmetler | Adım 6: Özet & Onay |
-| :---: | :---: | :---: |
-| ![Step 4](assets/screenshots/step4.png) | ![Step 5](assets/screenshots/step5.png) | ![Step 6](assets/screenshots/step6.png) |
-
----
-
 ## 🛠 Teknik Altyapı ve Mimari
 
 * **Framework:** Flutter (Dart)
@@ -68,9 +54,9 @@ Luhn algoritmasını geçen ve `mock_data` içerisinde tanımlı olan TC Kimlik 
 
 ## 🤖 AI Asistan Kullanımı
 
-Bu proje; kod mimarisinin hızla kurulması, otomatik test kurallarının (ValueKey'ler) eksiksiz entegre edilmesi ve karmaşık state yönetimi süreçlerinin hatasız yürütülmesi amacıyla yapay zeka kodlama asistanı yardımıyla geliştirilmiştir.
+Bu proje; kod mimarisinin hızla kurulması, otomatik test kurallarının (ValueKey'ler) eksiksiz entegre edilmesi ve karmaşık state yönetimi süreçlerinin hatasız yürütülmesi amacıyla yapay zeka kodlama asistanları yardımıyla geliştirilmiştir.
 
-* **Kullanılan AI Asistanı:** [KULLANDIĞIN AI ADINI YAZIN - Örn: Cursor / Claude 3.5 Sonnet / Copilot]
+* **Kullanılan AI Asistanları:** Arayüz tasarımı promptlarının oluşturulması (prompt stitch) ve süreç planlaması için **Gemini**, kodlama süreçleri için ise **Codex Agent** kullanılmıştır.
 
 ### 5 Örnek Prompt
 
