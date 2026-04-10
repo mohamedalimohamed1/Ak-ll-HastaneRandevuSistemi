@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/appointment_provider.dart';
+import '../widgets/ui_helper.dart';
 import 'step4_datetime.dart';
 import 'step6_summary.dart';
 
@@ -250,10 +251,10 @@ class _Step5ExtrasScreenState extends State<Step5ExtrasScreen> {
       setState(() {
         _showConsentError = true;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('KVKK ve Açık Rıza onayları olmadan devam edemezsiniz.'),
-        ),
+      UIHelper.showSnackBar(
+        context,
+        'KVKK ve Açık Rıza onayları olmadan devam edemezsiniz.',
+        isError: true,
       );
       return;
     }
@@ -273,6 +274,7 @@ class _Step5ExtrasScreenState extends State<Step5ExtrasScreen> {
       return;
     }
 
+    UIHelper.showSnackBar(context, 'Ek hizmet tercihleri kaydedildi.');
     Navigator.pushReplacementNamed(context, Step6SummaryScreen.routeName);
   }
 }

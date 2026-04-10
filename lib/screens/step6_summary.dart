@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/appointment_provider.dart';
+import '../widgets/ui_helper.dart';
 import 'step1_personal.dart';
 import 'step5_extras.dart';
 
@@ -257,6 +258,8 @@ class _Step6SummaryScreenState extends State<Step6SummaryScreen> {
     setState(() {
       _isSubmitting = false;
     });
+
+    UIHelper.showSnackBar(context, 'Randevunuz başarıyla oluşturuldu!');
 
     await showDialog<void>(
       context: context,

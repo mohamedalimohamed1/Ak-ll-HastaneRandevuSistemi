@@ -11,19 +11,29 @@ import 'screens/step4_datetime.dart';
 import 'screens/step5_extras.dart';
 import 'screens/step6_summary.dart';
 
-void main() {
-  runApp(const MediBookApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final appointmentProvider = AppointmentProvider();
+  await appointmentProvider.initialize();
+
+  runApp(MediBookApp(appointmentProvider: appointmentProvider));
 }
 
 class MediBookApp extends StatelessWidget {
-  const MediBookApp({super.key});
+  const MediBookApp({
+    required this.appointmentProvider,
+    super.key,
+  });
+
+  final AppointmentProvider appointmentProvider;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AppointmentProvider>(
-          create: (_) => AppointmentProvider()..initialize(),
+        ChangeNotifierProvider<AppointmentProvider>.value(
+          value: appointmentProvider,
         ),
       ],
       child: MaterialApp(
@@ -68,7 +78,7 @@ class MediBookApp extends StatelessWidget {
         foregroundColor: Colors.black87,
         elevation: 0,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: surfaceColor,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -92,7 +102,10 @@ class MediBookApp extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
-          borderSide: const BorderSide(color: primaryColor, width: 1.5),
+          borderSide: const BorderSide(
+            color: primaryColor,
+            width: 1.5,
+          ),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

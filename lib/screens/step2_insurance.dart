@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/appointment_provider.dart';
 import '../services/validator_service.dart';
+import '../widgets/ui_helper.dart';
 import 'step1_personal.dart';
 import 'step3_doctor.dart';
 
@@ -24,7 +25,7 @@ class _Step2InsuranceScreenState extends State<Step2InsuranceScreen> {
   bool _hasAllergy = false;
   bool _didSeed = false;
 
-  static const List<String> _fallbackInsuranceTypes = <String>[
+  static const List<String> _insuranceTypes = <String>[
     'SGK',
     'Bağ-Kur',
     'Özel',
@@ -51,10 +52,6 @@ class _Step2InsuranceScreenState extends State<Step2InsuranceScreen> {
       _hasAllergy = provider.hasAllergy;
     }
 
-    final insuranceOptions = provider.insuranceCompanies.isEmpty
-        ? _fallbackInsuranceTypes
-        : provider.insuranceCompanies;
-
     return Scaffold(
       appBar: AppBar(title: const Text('Sigorta ve Sağlık')),
       body: SafeArea(
@@ -73,33 +70,45 @@ class _Step2InsuranceScreenState extends State<Step2InsuranceScreen> {
                       children: [
                         const _StepHeader(step: 2, title: 'Sigorta ve Sağlık'),
                         const SizedBox(height: 24),
-                        DropdownButtonFormField<String>(
-                          key: const ValueKey('dropdown_sigorta'),
+                        FormField<String>(
                           initialValue: _insuranceType,
-                          decoration: const InputDecoration(
-                            labelText: 'Sigorta Türü',
-                          ),
-                          items: insuranceOptions
-                              .map(
-                                (type) => DropdownMenuItem<String>(
-                                  value: type,
-                                  child: Text(type),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _insuranceType = value;
-                              if (value != 'Özel') {
-                                _insuranceCompanyController.clear();
-                              }
-                            });
-                          },
-                          validator: (value) =>
-                              ValidatorService.requiredField(
+                          validator: (value) => ValidatorService.requiredField(
                             value,
                             fieldName: 'Sigorta Türü',
                           ),
+                          builder: (field) {
+                            return InputDecorator(
+                              decoration: InputDecoration(
+                                labelText: 'Sigorta Türü',
+                                errorText: field.errorText,
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  key: const ValueKey('dropdown_sigorta'),
+                                  value: _insuranceType,
+                                  isExpanded: true,
+                                  hint: const Text('Sigorta seçiniz'),
+                                  items: _insuranceTypes
+                                      .map(
+                                        (type) => DropdownMenuItem<String>(
+                                          value: type,
+                                          child: Text(type),
+                                        ),
+                                      )
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _insuranceType = value;
+                                      if (value != 'Özel') {
+                                        _insuranceCompanyController.clear();
+                                      }
+                                    });
+                                    field.didChange(value);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         if (_insuranceType == 'Özel') ...[
                           const SizedBox(height: 16),
@@ -238,6 +247,11 @@ class _Step2InsuranceScreenState extends State<Step2InsuranceScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
+      UIHelper.showSnackBar(
+        context,
+        'Lütfen formdaki hataları düzeltin.',
+        isError: true,
+      );
       return;
     }
 
@@ -254,6 +268,7 @@ class _Step2InsuranceScreenState extends State<Step2InsuranceScreen> {
       return;
     }
 
+    UIHelper.showSnackBar(context, 'Sigorta ve sağlık bilgileri kaydedildi.');
     Navigator.pushReplacementNamed(context, Step3DoctorScreen.routeName);
   }
 }

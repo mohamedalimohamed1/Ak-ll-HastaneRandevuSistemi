@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/appointment_provider.dart';
+import '../widgets/ui_helper.dart';
 import 'step3_doctor.dart';
 import 'step5_extras.dart';
 
@@ -314,8 +315,10 @@ class _Step4DateTimeScreenState extends State<Step4DateTimeScreen> {
 
   Future<void> _submit() async {
     if (_selectedDate == null || _selectedTime == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tarih ve saat seçimi zorunludur.')),
+      UIHelper.showSnackBar(
+        context,
+        'Lütfen tarih ve saat seçimini tamamlayın.',
+        isError: true,
       );
       return;
     }
@@ -333,6 +336,7 @@ class _Step4DateTimeScreenState extends State<Step4DateTimeScreen> {
       return;
     }
 
+    UIHelper.showSnackBar(context, 'Tarih ve saat bilgileri kaydedildi.');
     Navigator.pushReplacementNamed(context, Step5ExtrasScreen.routeName);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../services/validator_service.dart';
+import '../widgets/ui_helper.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -163,9 +164,15 @@ class _SignupScreenState extends State<SignupScreen> {
 
   void _submit() {
     if (!_formKey.currentState!.validate()) {
+      UIHelper.showSnackBar(
+        context,
+        'Lütfen kayıt formundaki hataları düzeltin.',
+        isError: true,
+      );
       return;
     }
 
+    UIHelper.showSnackBar(context, 'Kayıt başarılı!');
     Navigator.pop(context);
   }
 }

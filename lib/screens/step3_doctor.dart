@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/doctor.dart';
 import '../providers/appointment_provider.dart';
 import '../services/validator_service.dart';
+import '../widgets/ui_helper.dart';
 import 'step2_insurance.dart';
 import 'step4_datetime.dart';
 
@@ -45,136 +46,199 @@ class Step3DoctorScreen extends StatelessWidget {
                               title: 'Bölüm ve Doktor Seçimi',
                             ),
                             const SizedBox(height: 24),
-                            DropdownButtonFormField<String>(
-                              key: const ValueKey('dropdown_sehir'),
+                            FormField<String>(
                               initialValue:
                                   provider.cityId.isEmpty ? null : provider.cityId,
-                              decoration:
-                                  const InputDecoration(labelText: 'Şehir'),
-                              items: provider.cities
-                                  .map(
-                                    (city) => DropdownMenuItem<String>(
-                                      value: city.id,
-                                      child: Text(city.name),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (value) async {
-                                if (value == null) {
-                                  return;
-                                }
-                                final city = provider.cities.firstWhere(
-                                  (item) => item.id == value,
-                                );
-                                await provider.selectCity(
-                                  id: city.id,
-                                  name: city.name,
-                                );
-                              },
-                              validator: (value) =>
-                                  ValidatorService.requiredField(
+                              validator: (value) => ValidatorService.requiredField(
                                 value,
                                 fieldName: 'Şehir',
                               ),
+                              builder: (field) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                    labelText: 'Şehir',
+                                    errorText: field.errorText,
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      key: const ValueKey('dropdown_sehir'),
+                                      value: provider.cityId.isEmpty
+                                          ? null
+                                          : provider.cityId,
+                                      isExpanded: true,
+                                      hint: const Text('Şehir seçiniz'),
+                                      items: provider.cities
+                                          .map(
+                                            (city) => DropdownMenuItem<String>(
+                                              value: city.id,
+                                              child: Text(city.name),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (value) async {
+                                        if (value == null) {
+                                          return;
+                                        }
+                                        final city = provider.cities.firstWhere(
+                                          (item) => item.id == value,
+                                        );
+                                        await provider.selectCity(
+                                          id: city.id,
+                                          name: city.name,
+                                        );
+                                        field.didChange(value);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                             const SizedBox(height: 16),
-                            DropdownButtonFormField<String>(
-                              key: const ValueKey('dropdown_hastane'),
+                            FormField<String>(
                               initialValue: provider.hospitalId.isEmpty
                                   ? null
                                   : provider.hospitalId,
-                              decoration:
-                                  const InputDecoration(labelText: 'Hastane'),
-                              items: hospitals
-                                  .map(
-                                    (hospital) => DropdownMenuItem<String>(
-                                      value: hospital.id,
-                                      child: Text(hospital.name),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (value) async {
-                                if (value == null) {
-                                  return;
-                                }
-                                final hospital = hospitals.firstWhere(
-                                  (item) => item.id == value,
-                                );
-                                await provider.selectHospital(
-                                  id: hospital.id,
-                                  name: hospital.name,
-                                );
-                              },
-                              validator: (value) =>
-                                  ValidatorService.requiredField(
+                              validator: (value) => ValidatorService.requiredField(
                                 value,
                                 fieldName: 'Hastane',
                               ),
+                              builder: (field) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                    labelText: 'Hastane',
+                                    errorText: field.errorText,
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      key: const ValueKey('dropdown_hastane'),
+                                      value: provider.hospitalId.isEmpty
+                                          ? null
+                                          : provider.hospitalId,
+                                      isExpanded: true,
+                                      hint: const Text('Hastane seçiniz'),
+                                      items: hospitals
+                                          .map(
+                                            (hospital) =>
+                                                DropdownMenuItem<String>(
+                                              value: hospital.id,
+                                              child: Text(hospital.name),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (value) async {
+                                        if (value == null) {
+                                          return;
+                                        }
+                                        final hospital = hospitals.firstWhere(
+                                          (item) => item.id == value,
+                                        );
+                                        await provider.selectHospital(
+                                          id: hospital.id,
+                                          name: hospital.name,
+                                        );
+                                        field.didChange(value);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                             const SizedBox(height: 16),
-                            DropdownButtonFormField<String>(
-                              key: const ValueKey('dropdown_bolum'),
+                            FormField<String>(
                               initialValue: provider.departmentId.isEmpty
                                   ? null
                                   : provider.departmentId,
-                              decoration:
-                                  const InputDecoration(labelText: 'Bölüm'),
-                              items: departments
-                                  .map(
-                                    (department) => DropdownMenuItem<String>(
-                                      value: department.id,
-                                      child: Text(department.name),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (value) async {
-                                if (value == null) {
-                                  return;
-                                }
-                                final department = departments.firstWhere(
-                                  (item) => item.id == value,
-                                );
-                                await provider.selectDepartment(
-                                  id: department.id,
-                                  name: department.name,
-                                );
-                              },
-                              validator: (value) =>
-                                  ValidatorService.requiredField(
+                              validator: (value) => ValidatorService.requiredField(
                                 value,
                                 fieldName: 'Bölüm',
                               ),
+                              builder: (field) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                    labelText: 'Bölüm',
+                                    errorText: field.errorText,
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      key: const ValueKey('dropdown_bolum'),
+                                      value: provider.departmentId.isEmpty
+                                          ? null
+                                          : provider.departmentId,
+                                      isExpanded: true,
+                                      hint: const Text('Bölüm seçiniz'),
+                                      items: departments
+                                          .map(
+                                            (department) =>
+                                                DropdownMenuItem<String>(
+                                              value: department.id,
+                                              child: Text(department.name),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (value) async {
+                                        if (value == null) {
+                                          return;
+                                        }
+                                        final department =
+                                            departments.firstWhere(
+                                          (item) => item.id == value,
+                                        );
+                                        await provider.selectDepartment(
+                                          id: department.id,
+                                          name: department.name,
+                                        );
+                                        field.didChange(value);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                             const SizedBox(height: 16),
-                            DropdownButtonFormField<String>(
-                              key: const ValueKey('dropdown_doktor'),
+                            FormField<String>(
                               initialValue: provider.doctorId.isEmpty
                                   ? null
                                   : provider.doctorId,
-                              decoration:
-                                  const InputDecoration(labelText: 'Doktor'),
-                              items: doctors
-                                  .map(
-                                    (doctor) => DropdownMenuItem<String>(
-                                      value: doctor.id,
-                                      child: Text(doctor.name),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (value) async {
-                                if (value == null) {
-                                  return;
-                                }
-                                final doctor = doctors.firstWhere(
-                                  (item) => item.id == value,
-                                );
-                                await _selectDoctor(provider, doctor);
-                              },
-                              validator: (value) =>
-                                  ValidatorService.requiredField(
+                              validator: (value) => ValidatorService.requiredField(
                                 value,
                                 fieldName: 'Doktor',
                               ),
+                              builder: (field) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                    labelText: 'Doktor',
+                                    errorText: field.errorText,
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      key: const ValueKey('dropdown_doktor'),
+                                      value: provider.doctorId.isEmpty
+                                          ? null
+                                          : provider.doctorId,
+                                      isExpanded: true,
+                                      hint: const Text('Doktor seçiniz'),
+                                      items: doctors
+                                          .map(
+                                            (doctor) => DropdownMenuItem<String>(
+                                              value: doctor.id,
+                                              child: Text(doctor.name),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (value) async {
+                                        if (value == null) {
+                                          return;
+                                        }
+                                        final doctor = doctors.firstWhere(
+                                          (item) => item.id == value,
+                                        );
+                                        await _selectDoctor(provider, doctor);
+                                        field.didChange(value);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                             if (doctors.isNotEmpty) ...[
                               const SizedBox(height: 20),
@@ -271,18 +335,31 @@ class Step3DoctorScreen extends StatelessWidget {
                                 Expanded(
                                   child: ElevatedButton(
                                     key: const ValueKey('btn_ileri'),
-                                    onPressed: provider.doctorId.isEmpty
-                                        ? null
-                                        : () async {
-                                            await provider.goToStep(4);
-                                            if (!context.mounted) {
-                                              return;
-                                            }
-                                            Navigator.pushReplacementNamed(
-                                              context,
-                                              Step4DateTimeScreen.routeName,
-                                            );
-                                          },
+                                    onPressed: () async {
+                                      if (provider.cityId.isEmpty ||
+                                          provider.hospitalId.isEmpty ||
+                                          provider.departmentId.isEmpty ||
+                                          provider.doctorId.isEmpty) {
+                                        UIHelper.showSnackBar(
+                                          context,
+                                          'Lütfen şehir, hastane, bölüm ve doktor seçimini tamamlayın.',
+                                          isError: true,
+                                        );
+                                        return;
+                                      }
+                                      await provider.goToStep(4);
+                                      if (!context.mounted) {
+                                        return;
+                                      }
+                                      UIHelper.showSnackBar(
+                                        context,
+                                        'Doktor seçimi kaydedildi.',
+                                      );
+                                      Navigator.pushReplacementNamed(
+                                        context,
+                                        Step4DateTimeScreen.routeName,
+                                      );
+                                    },
                                     child: const Text('İleri'),
                                   ),
                                 ),

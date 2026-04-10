@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/validator_service.dart';
+import '../widgets/ui_helper.dart';
 import 'signup_screen.dart';
 import 'step1_personal.dart';
 
@@ -126,9 +127,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _submit() {
     if (!_formKey.currentState!.validate()) {
+      UIHelper.showSnackBar(
+        context,
+        'Giriş bilgilerini kontrol ediniz.',
+        isError: true,
+      );
       return;
     }
 
+    UIHelper.showSnackBar(context, 'Giriş başarılı!');
     Navigator.pushReplacementNamed(context, Step1PersonalScreen.routeName);
   }
 }

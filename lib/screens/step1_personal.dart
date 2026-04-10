@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/appointment_provider.dart';
 import '../services/validator_service.dart';
+import '../widgets/ui_helper.dart';
 import 'login_screen.dart';
 import 'step2_insurance.dart';
 
@@ -27,7 +29,7 @@ class _Step1PersonalScreenState extends State<Step1PersonalScreen> {
   final _birthDateController = TextEditingController();
   final _addressController = TextEditingController();
   final _phoneFormatter = MaskTextInputFormatter(
-    mask: '0(5##) ### ## ##',
+    mask: '#(###) ### ## ##',
     filter: <String, RegExp>{'#': RegExp(r'\d')},
   );
 
@@ -81,7 +83,10 @@ class _Step1PersonalScreenState extends State<Step1PersonalScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const _StepHeader(step: 1, title: 'Kişisel Bilgiler'),
+                              const _StepHeader(
+                                step: 1,
+                                title: 'Kişisel Bilgiler',
+                              ),
                               const SizedBox(height: 24),
                               TextFormField(
                                 key: const ValueKey('input_ad'),
@@ -117,9 +122,14 @@ class _Step1PersonalScreenState extends State<Step1PersonalScreen> {
                                 decoration: const InputDecoration(
                                   labelText: 'TC Kimlik',
                                   hintText: '11 haneli TC Kimlik numarası',
+                                  counterText: '',
                                 ),
                                 keyboardType: TextInputType.number,
+                                maxLength: 11,
                                 textInputAction: TextInputAction.next,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                                 validator: ValidatorService.validateTcKimlik,
                               ),
                               const SizedBox(height: 16),
@@ -167,10 +177,10 @@ class _Step1PersonalScreenState extends State<Step1PersonalScreen> {
                               const SizedBox(height: 20),
                               Text(
                                 'Cinsiyet',
-                                style:
-                                    Theme.of(context).textTheme.titleMedium?.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700),
                               ),
                               const SizedBox(height: 8),
                               Wrap(
@@ -185,7 +195,9 @@ class _Step1PersonalScreenState extends State<Step1PersonalScreen> {
                                         groupValue: _selectedGender,
                                         onChanged: (value) {
                                           if (value != null) {
-                                            setState(() => _selectedGender = value);
+                                            setState(() {
+                                              _selectedGender = value;
+                                            });
                                           }
                                         },
                                       ),
@@ -201,7 +213,9 @@ class _Step1PersonalScreenState extends State<Step1PersonalScreen> {
                                         groupValue: _selectedGender,
                                         onChanged: (value) {
                                           if (value != null) {
-                                            setState(() => _selectedGender = value);
+                                            setState(() {
+                                              _selectedGender = value;
+                                            });
                                           }
                                         },
                                       ),
@@ -295,30 +309,29 @@ class _Step1PersonalScreenState extends State<Step1PersonalScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
+      UIHelper.showSnackBar(
+        context,
+        'Lütfen formdaki hataları düzeltin.',
+        isError: true,
+      );
       return;
     }
 
-    setState(() => _isSubmitting = true);
-    final provider = context.read<AppointmentProvider>();
-    final uniqueTcError = await ValidatorService.validateUniqueTcKimlik(
-      _tcController.text.trim(),
-      provider.existingTcs,
-    );
+    setState(() {
+      _isSubmitting = true;
+    });
+
     if (mounted) {
-      setState(() => _isSubmitting = false);
+      setState(() {
+        _isSubmitting = false;
+      });
     }
 
     if (!mounted) {
       return;
     }
 
-    if (uniqueTcError != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(uniqueTcError)),
-      );
-      return;
-    }
-
+    final provider = context.read<AppointmentProvider>();
     await provider.updatePersonalInfo(
       firstName: _nameController.text.trim(),
       lastName: _surnameController.text.trim(),
@@ -335,6 +348,7 @@ class _Step1PersonalScreenState extends State<Step1PersonalScreen> {
       return;
     }
 
+    UIHelper.showSnackBar(context, 'Kişisel bilgiler kaydedildi.');
     Navigator.pushReplacementNamed(context, Step2InsuranceScreen.routeName);
   }
 }

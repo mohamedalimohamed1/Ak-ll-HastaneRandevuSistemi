@@ -53,13 +53,14 @@ class ValidatorService {
 
   static String? validatePhone(String? value) {
     final requiredError = requiredField(value, fieldName: 'Telefon');
-    if (requiredError != null) {
-      return requiredError;
+    if (requiredError != null) return requiredError;
+
+    final digitsOnly = value!.replaceAll(RegExp(r'\D'), '');
+
+    if (digitsOnly.length != 11 || !digitsOnly.startsWith('05')) {
+      return 'Telefon numarası eksik veya hatalı (Örn: 0555 123 45 67)';
     }
 
-    if ((value ?? '').trim().length != 15) {
-      return 'Telefon numarası 0(5XX) XXX XX XX formatında olmalıdır.';
-    }
     return null;
   }
 
@@ -96,10 +97,6 @@ class ValidatorService {
     String value,
     List<String> existingTcs,
   ) async {
-    await Future<void>.delayed(const Duration(milliseconds: 250));
-    if (existingTcs.contains(value)) {
-      return 'Bu TC Kimlik numarası sistemde kayıtlıdır.';
-    }
     return null;
   }
 }
