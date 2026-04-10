@@ -1,0 +1,130 @@
+{
+  "existing_tcs": [
+    "10000000146",
+    "20000000146",
+    "30000000146"
+  ],
+  "insurance_companies": [
+    "Acıbadem Sigorta",
+    "Allianz Sigorta",
+    "Anadolu Sigorta",
+    "Axa Sigorta",
+    "Bupa Acıbadem",
+    "Sompo Sigorta"
+  ],
+  "chronic_diseases": [
+    "Astım",
+    "Diyabet",
+    "Hipertansiyon",
+    "Kalp Yetmezliği",
+    "KOAH",
+    "Tiroid"
+  ],
+  "services_pricing": {
+    "base_examination": 500,
+    "Kan Tahlili": 250,
+    "MR": 1200,
+    "Röntgen": 400,
+    "transportation": 300
+  },
+  "locations": [
+    {
+      "city_id": "34",
+      "city_name": "İstanbul",
+      "hospitals": [
+        {
+          "hospital_id": "ist_1",
+          "hospital_name": "MediBook Merkez Hastanesi",
+          "departments": [
+            {
+              "department_id": "dep_kar",
+              "department_name": "Kardiyoloji",
+              "doctors": [
+                {
+                  "doctor_id": "doc_1",
+                  "doctor_name": "Dr. Ahmet Yılmaz",
+                  "specialty": "Kardiyoloji Uzmanı",
+                  "rating": 4.8,
+                  "image_url": "https://i.pravatar.cc/150?u=doc_1"
+                },
+                {
+                  "doctor_id": "doc_2",
+                  "doctor_name": "Dr. Ayşe Demir",
+                  "specialty": "Kardiyoloji Uzmanı",
+                  "rating": 4.9,
+                  "image_url": "https://i.pravatar.cc/150?u=doc_2"
+                }
+              ]
+            },
+            {
+              "department_id": "dep_dah",
+              "department_name": "Dahiliye",
+              "doctors": [
+                {
+                  "doctor_id": "doc_3",
+                  "doctor_name": "Dr. Kemal Kaya",
+                  "specialty": "Dahiliye Uzmanı",
+                  "rating": 4.5,
+                  "image_url": "https://i.pravatar.cc/150?u=doc_3"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "city_id": "13",
+      "city_name": "Bitlis",
+      "hospitals": [
+        {
+          "hospital_id": "bit_1",
+          "hospital_name": "MediBook Tatvan Şubesi",
+          "departments": [
+            {
+              "department_id": "dep_nor",
+              "department_name": "Nöroloji",
+              "doctors": [
+                {
+                  "doctor_id": "doc_4",
+                  "doctor_name": "Dr. Mehmet Eren",
+                  "specialty": "Nöroloji Uzmanı",
+                  "rating": 4.7,
+                  "image_url": "https://i.pravatar.cc/150?u=doc_4"
+                }
+              ]
+            },
+            {
+              "department_id": "dep_ort",
+              "department_name": "Ortopedi",
+              "doctors": [
+                {
+                  "doctor_id": "doc_5",
+                  "doctor_name": "Dr. Zeynep Şahin",
+                  "specialty": "Ortopedi Uzmanı",
+                  "rating": 4.6,
+                  "image_url": "https://i.pravatar.cc/150?u=doc_5"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "booked_slots": {
+    "doc_1": [
+      "2026-04-13T09:00",
+      "2026-04-13T10:30",
+      "2026-04-14T14:00"
+    ],
+    "doc_2": [
+      "2026-04-13T11:00",
+      "2026-04-15T09:00"
+    ],
+    "doc_4": [
+      "2026-04-14T09:30",
+      "2026-04-14T10:00"
+    ]
+  }
+}
